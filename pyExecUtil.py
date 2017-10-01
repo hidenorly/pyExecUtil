@@ -77,3 +77,9 @@ class PyExecUtil(object):
 
 		self._thread.join(timeout)
 		self.terminate(killChildrenProcess)
+
+		return_code = None
+		if self.process:
+			return_code = self.process.returncode
+
+		return return_code

@@ -33,12 +33,12 @@ class MyExtCommandHandler(PyExecUtil):
 
 if __name__ == '__main__':
 	cmd = PyExecUtil("echo 'started'; sleep 2; echo 'finished'")
-	cmd.execute(timeout=3, onCompletion=my_process, args=None)
-	cmd.execute(timeout=1, onCompletion=my_process, args=None)
+	print( cmd.execute(timeout=3, onCompletion=my_process, args=None) )
+	print( cmd.execute(timeout=1, onCompletion=my_process, args=None) )
 
 	cmd2 = MyExtCommandHandler("echo 'started'; sleep 2; echo 'finished'");
-	cmd2.execute(timeout=3)
-	cmd2.execute(timeout=1)
+	print( cmd2.execute(timeout=3) )
+	print( cmd2.execute(timeout=1) )
 	cmd2.execute() # infinite wait
 
 	cmd.terminate() #optional
