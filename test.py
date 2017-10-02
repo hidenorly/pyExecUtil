@@ -16,6 +16,16 @@
 # limitations under the License.
 
 from pyExecUtil import PyExecUtil
+import sys
+import io
+import codecs
+
+# for Python 3.x
+try:
+	#sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+	sys.stdout = codecs.getwriter("utf8")(sys.stdout.buffer)
+except AttributeError:
+	pass
 
 def my_process(args, stdout_data, stderr_data):
 	print(stdout_data)

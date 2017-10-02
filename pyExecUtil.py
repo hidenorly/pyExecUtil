@@ -23,6 +23,7 @@ import subprocess, threading
 
 cset = 'utf-8'
 
+# for Python 3.x
 try:
 	reload
 except NameError:
