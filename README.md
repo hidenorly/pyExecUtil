@@ -52,9 +52,20 @@ PyExecUtil.terminate() # force terminate
 
 # Confirmed environment
 
+## Ubuntu 16.04 LTS
+
 ```
 $ python --version
 Python 2.7.12
 $ python3 --version
 Python 3.5.2
+```
+
+## Mac OS X El Capitan
+
+```
+$ python --version
+Python 2.7.13
+$ python3 --version
+Python 3.6.1
 ```
