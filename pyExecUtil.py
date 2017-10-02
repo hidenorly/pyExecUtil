@@ -44,20 +44,20 @@ sys.stdout = codecs.getwriter(cset)(sys.stdout)
 class PyExecUtil(object):
 	def __init__(self, cmd):
 		self.cmd = cmd
-		self.process = None
+		self._process = None
 		self._thread = None
-		self.callback = None
-		self.args = None
+		self._callback = None
+		self._args = None
 		self.stdout_data = None
 		self.stderr_data = None
 
 	def onCompletion(self):
-		if self.callback:
-			self.callback(self.args, self.stdout_data, self.stderr_data)
+		if self._callback:
+			self._callback(self._args, self.stdout_data, self.stderr_data)
 
 	def __onExecute(self):
-		self.process = subprocess.Popen(self.cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setsid)
-		self.stdout_data, self.stderr_data = self.process.communicate()
+		self._process = subprocess.Popen(self.cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setsid)
+		self.stdout_data, self.stderr_data = self._process.communicate()
 		self.onCompletion()
 
 	def kill_children_process(self, pid):
@@ -66,13 +66,13 @@ class PyExecUtil(object):
 	def terminate(self, killChildrenProcess=True):
 		if self._thread.is_alive():
 			if killChildrenProcess:
-				self.kill_children_process(self.process.pid)
-			self.process.terminate()
+				self.kill_children_process(self._process.pid)
+			self._process.terminate()
 			self._thread.join()
 
 	def execute(self, timeout=None, killChildrenProcess=True, onCompletion=None, args=None):
-		self.callback = onCompletion
-		self.args = args
+		self._callback = onCompletion
+		self._args = args
 		self._thread = threading.Thread(target=self.__onExecute)
 		self._thread.start()
 
@@ -80,7 +80,7 @@ class PyExecUtil(object):
 		self.terminate(killChildrenProcess)
 
 		return_code = None
-		if self.process:
-			return_code = self.process.returncode
+		if self._process:
+			return_code = self._process.returncode
 
 		return return_code
