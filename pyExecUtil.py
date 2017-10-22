@@ -65,9 +65,10 @@ class PyExecUtil(object):
 
 	def terminate(self, killChildrenProcess=True):
 		if self._thread.is_alive():
-			if killChildrenProcess:
-				self.kill_children_process(self._process.pid)
-			self._process.terminate()
+			if self._process!=None:
+				if killChildrenProcess:
+					self.kill_children_process(self._process.pid)
+				self._process.terminate()
 			self._thread.join()
 
 	def execute(self, timeout=None, killChildrenProcess=True, onCompletion=None, args=None):
